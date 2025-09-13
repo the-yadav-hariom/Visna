@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RCH Public School Siwan</title>
+    <!-- Use Tailwind CSS for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use the Inter font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        .hero-section {
+            height: 85vh;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            transition: background-image 1s ease-in-out;
+            display: flex;
+            align-items: center;    
+            justify-content: center;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url(lab.jpg);
+            background-size: cover;
+            background-position: center;
+            
+        }
+        .hero-content {
+            z-index: 10;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+            max-width: 800px;
+        }
+        .nav-link {
+            transition: color 0.3s, background-color 0.3s;
+        }
+        .nav-link:hover {
+            color: #ff5722;
+        }
+        .slider-arrow {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 50%;
+            padding: 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .slider-arrow:hover {
+            background: rgba(0, 0, 0, 0.6);
+        }
+        .modal {
+            transition: opacity 0.3s ease-in-out;
+        }
+        /* Custom styles for the horizontal card slider */
+        .scrolling-container {
+            display: flex;
+            animation: scroll-left 40s linear infinite;
+        }
+        .scrolling-container:hover {
+            animation-play-state: paused;
+        }
+        .scrolling-card {
+            flex-shrink: 0;
+            width: 320px;
+            margin-right: 1.5rem;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+        @keyframes scroll-left {
+            0% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        .team-card-image-container {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto;
+            border-width: 4px;
+            border-style: solid;
+        }
+        .notification-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .notification-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        .notification-type {
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            text-transform: uppercase;
+            margin-right: 0.75rem;
+            line-height: 1;
+        }
+        .type-reminder {
+            color: #1a237e;
+            background-color: #e8eaf6;
+        }
+        .type-news {
+            color: #388e3c;
+            background-color: #e8f5e9;
+        }
+        .type-safety {
+            color: #ff5722;
+            background-color: #ffe0b2;
+        }
+        .event-card {
+            background: #fff3e0;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            border-left: 5px solid #ff9800;
+        }
+        .event-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .event-icon {
+            color: #ff5722;
+            margin-right: 1rem;
+        }
+        .scrolling-text-container {
+            overflow: hidden;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            height: 48px;
+            background-color: #e8eaf6;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .scrolling-text {
+            display: inline-block;
+            padding-left: 100%;
+            animation: scroll-right-to-left 15s linear infinite;
+        }
+        @keyframes scroll-right-to-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        /* New styles for notifications grid and animation */
+        .notification-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        @media (min-width: 768px) {
+            .notification-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        .notification-list-container {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+        .notification-list {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            animation: scroll-up 15s linear infinite;
+        }
+        .notification-list:hover {
+            animation-play-state: paused;
+        }
+        @keyframes scroll-up {
+            0% { transform: translateY(0%); }
+            100% { transform: translateY(-100%); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Enrollment Form Modal -->
+    <div id="enroll-modal" class="modal fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 hidden z-[100] opacity-0">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg relative p-8 md:p-10 transform scale-95 transition-transform duration-300">
+            <!-- Close Button -->
+            <buttom id="close-enroll-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </buttom>
+            
+            <h2 class="text-3xl font-bold text-gray-800 text-center mb-2">Enroll Your Child</h2>
+            <p class="text-gray-500 text-center mb-8">Fill out the form below to get started.</p>
+
+            <form id="enrollment-form" class="space-y-6">
+                <div>
+                    <label for="name" class="block text-gray-700 font-medium mb-1">Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter full name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a237e]" required>
+                </div>
+                <div>
+                    <label for="class" class="block text-gray-700 font-medium mb-1">Class</label>
+                    <input type="text" id="class" name="class" placeholder="Enter desired class" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a237e]" required>
+                </div>
+                <div>
+                    <label for="address" class="block text-gray-700 font-medium mb-1">Address</label>
+                    <input type="text" id="address" name="address" placeholder="Enter full address" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a237e]" required>
+                </div>
+                <div>
+                    <label for="mobile" class="block text-gray-700 font-medium mb-1">Mobile No.</label>
+                    <input type="tel" id="mobile" name="mobile" placeholder="Enter mobile number" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a237e]" required>
+                </div>
+                <button type="submit" class="w-full bg-[#1a237e] text-white font-bold py-3 rounded-lg hover:bg-[#111867] transition">
+                    Submit Enrollment
+                </button>
+            </form>
+
+            <div id="success-message" class="hidden mt-6 text-center text-green-600 font-bold p-4 bg-green-100 rounded-lg border border-green-200">
+                Your form has been submitted successfully! We will contact you shortly.
+            </div>
+        </div>
+    </div>
+    
+    <!-- Inquiry Form Modal -->
+    <div id="inquiry-modal" class="modal fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 hidden z-[100] opacity-0">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg relative p-8 md:p-10 transform scale-95 transition-transform duration-300">
+            <!-- Close Button -->
+            <buttom id="close-inquiry-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </buttom>
+            
+            <h2 class="text-3xl font-bold text-gray-800 text-center mb-2">Inquiry Form</h2>
+            <p class="text-gray-500 text-center mb-8">Please provide your details and we will get back to you.</p>
+
+            <form id="inquiry-form" class="space-y-6">
+                <div>
+                    <label for="inquiry-name" class="block text-gray-700 font-medium mb-1">Full Name</label>
+                    <input type="text" id="inquiry-name" name="name" placeholder="Enter full name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a237e]" required>
+                </div>
+                <div>
+                    <label for="inquiry-email" class="block text-gray-700 font-medium mb-1">Email</label>
+                    <input type="email" id="inquiry-email" name="email" placeholder="Enter your email address" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a237e]" required>
+                </div>
+                <div>
+                    <label for="inquiry-mobile" class="block text-gray-700 font-medium mb-1">Mobile No.</label>
+                    <input type="tel" id="inquiry-mobile" name="mobile" placeholder="Enter mobile number" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a237e]" required>
+                </div>
+                <button type="submit" class="w-full bg-[#1a237e] text-white font-bold py-3 rounded-lg hover:bg-[#111867] transition">
+                    Submit Inquiry
+                </button>
+            </form>
+
+            <div id="inquiry-success-message" class="hidden mt-6 text-center text-green-600 font-bold p-4 bg-green-100 rounded-lg border border-green-200">
+                Your inquiry has been submitted! We will contact you shortly.
+            </div>
+        </div>
+    </div>
+
+    <!-- Admissions Modal -->
+    <div id="admissions-modal" class="modal fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 hidden z-[100] opacity-0">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl relative p-8 md:p-10 transform scale-95 transition-transform duration-300">
+            <!-- Close Button -->
+            <buttom id="close-admissions-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </buttom>
+            
+            <h2 class="text-3xl font-bold text-gray-800 text-center mb-2">Admissions & Registration</h2>
+            <p class="text-gray-500 text-center mb-8">Secure a seat for your child for the upcoming academic year.</p>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <!-- Important Dates & Info -->
+                <div class="bg-gray-50 p-6 rounded-lg shadow-inner">
+                    <h3 class="text-xl font-bold text-[#1a237e] mb-4">Important Information</h3>
+                    <ul class="space-y-3 text-gray-600">
+                        <li>
+                            <span class="font-semibold text-gray-800">Registration Dates:</span>
+                            <br>
+                            Start: 1st November, 2024
+                            <br>
+                            End: 31st December, 2024
+                        </li>
+                        <li>
+                            <span class="font-semibold text-gray-800">Classes Available:</span>
+                            <br>
+                            Pre-Nursery to Class 5
+                        </li>
+                        <li>
+                            <span class="font-semibold text-gray-800">Seat Availability:</span>
+                            <ul class="list-disc list-inside mt-1">
+                                <li>Pre-Nursery: 30 seats</li>
+                                <li>Nursery: 25 seats</li>
+                                <li>KG: 25 seats</li>
+                                <li>Class 1-5: 20 seats each</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Registration Form -->
+                <form id="admissions-form" class="space-y-4">
+                    <div>
+                        <label for="admission-name" class="block text-gray-700 font-medium mb-1">Student's Full Name</label>
+                        <input type="text" id="admission-name" name="studentName" placeholder="Enter student's full name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a237e]" required>
+                    </div>
+                    <div>
+                        <label for="admission-parent-name" class="block text-gray-700 font-medium mb-1">Parent's Full Name</label>
+                        <input type="text" id="admission-parent-name" name="parentName" placeholder="Enter parent's full name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a237e]" required>
+                    </div>
+                    <div>
+                        <label for="admission-class" class="block text-gray-700 font-medium mb-1">Applying for Class</label>
+                        <select id="admission-class" name="class" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a237e]" required>
+                            <option value="">Select a class</option>
+                            <option value="Pre-Nursery">Pre-Nursery</option>
+                            <option value="Nursery">Nursery</option>
+                            <option value="KG">KG</option>
+                            <option value="Class 1">Class 1</option>
+                            <option value="Class 2">Class 2</option>
+                            <option value="Class 3">Class 3</option>
+                            <option value="Class 4">Class 4</option>
+                            <option value="Class 5">Class 5</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="admission-mobile" class="block text-gray-700 font-medium mb-1">Mobile No.</label>
+                        <input type="tel" id="admission-mobile" name="mobile" placeholder="Enter mobile number" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a237e]" required>
+                    </div>
+                    <button type="submit" class="w-full bg-[#1a237e] text-white font-bold py-3 rounded-lg hover:bg-[#111867] transition">
+                        Submit Registration
+                    </button>
+                </form>
+            </div>
+
+            <div id="admissions-success-message" class="hidden mt-6 text-center text-green-600 font-bold p-4 bg-green-100 rounded-lg border border-green-200">
+                Your registration has been received! We will contact you soon.
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Header Section -->
+    <header class="bg-white text-gray-800 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto p-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="text-3xl font-bold text-[#1a237e] uppercase">GD MEMORIAL SCHOOL</div>
+            </div>
+
+            <nav class="hidden lg:flex items-center space-x-6 font-medium">
+                <a href="#" class="nav-link">Home</a>
+                <a href="#about-us" class="nav-link">About Us</a>
+                <a href="#" class="nav-link" id="admissions-nav-link">Admissions</a>
+                <a href="#gallery" class="nav-link">Gallery</a>
+                <a href="#" class="nav-link" id="contact-us-nav-link">Contact Us</a>
+            </nav>
+
+            <div class="hidden lg:flex items-center space-x-6">
+                <div class="flex items-center space-x-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-[#ff5722]">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 6.51-6.75 9.75-9.75 9.75S.5 17.01.5 10.5a9.75 9.75 0 0 1 19.5 0Z" />
+                    </svg>
+                    <div class="text-sm">
+                        <p class="font-bold text-gray-700">FIND US</p>
+                        <p class="text-gray-500">Siwan, Bihar, India</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-[#ff5722]">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    <div class="text-sm">
+                        <p class="font-bold text-gray-700">OPEN TIME</p>
+                        <p class="text-gray-500">Mon-Sat: 08:00 - 15:00</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile menu button -->
+            <buttom id="mobile-menu-btn" class="lg:hidden text-gray-800 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </buttom>
+        </div>
+
+        <!-- Mobile menu dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white text-gray-700 font-medium">
+            <a href="#" class="block px-4 py-2 border-t border-gray-200 hover:bg-gray-100">Home</a>
+            <a href="#about-us" class="block px-4 py-2 border-t border-gray-200 hover:bg-gray-100">About Us</a>
+            <a href="#principal" class="block px-4 py-2 border-t border-gray-200 hover:bg-gray-100">Principal's Desk</a>
+            <a href="#team" class="block px-4 py-2 border-t border-gray-200 hover:bg-gray-100">Our Team</a>
+            <a href="#notifications-scrolling" class="block px-4 py-2 border-t border-gray-200 hover:bg-gray-100">Notifications</a>
+            <a href="#" class="block px-4 py-2 border-t border-gray-200 hover:bg-gray-100" id="admissions-mobile-link">Admissions</a>
+            <a href="#gallery" class="block px-4 py-2 border-t border-gray-200 hover:bg-gray-100">Gallery</a>
+            <a href="#" class="block px-4 py-2 border-t border-gray-200 hover:bg-gray-100" id="contact-us-mobile-link">Contact Us</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero-section shadow-lg" id="hero-slider">
+        <div class="hero-overlay"></div>
+
+        <!-- Hero Content -->
+        <div class="hero-content">
+            <p class="text-sm sm:text-lg font-semibold tracking-wider uppercase mb-2">RCH Public School Siwan</p>
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6" id="hero-headline">Best gift for a child is a great education</h1>
+            <button id="enroll-now-btn" class="bg-[#ff5722] text-white font-bold py-3 px-8 rounded-full shadow-lg hover:scale-105 transform transition duration-300">
+                ENROLL NOW
+            </button>
+        </div>
+
+        <!-- Slider Arrows -->
+        <div class="absolute inset-y-0 left-0 flex items-center p-4">
+            <div id="prev-btn" class="slider-arrow text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                </svg>
+            </div>
+        </div>
+        <div class="absolute inset-y-0 right-0 flex items-center p-4">
+            <div id="next-btn" class="slider-arrow text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enrollment Banner Section - Full-width and centered -->
+    <div class="bg-[#1a237e] text-white py-8 md:py-12 relative z-20 shadow-xl rounded-lg mx-4 sm:mx-8 lg:mx-24 -mt-24">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 md:space-x-8">
+            <div class="flex items-center space-x-4">
+                <div class="bg-white text-[#1a237e] p-3 rounded-full shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25m0 0a5.25 5.25 0 0 1-5.25-5.25v-1.5a2.25 2.25 0 0 1 4.5 0v1.5a5.25 5.25 0 0 1-5.25 5.25m7.5-2.25v-1.5a2.25 2.25 0 0 1 4.5 0v1.5a5.25 5.25 0 0 1-5.25 5.25m-3.75-9H16.5m-4.5 0H5.25" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold">Enroll a Child</h2>
+                    <p class="text-sm md:text-base text-gray-300">We provide the perfect education for your child's success.</p>
+                </div>
+            </div>
+            <a href="#" id="contact-us-banner-link" class="border-2 border-white text-white font-bold py-3 px-8 rounded-full transition-colors duration-300 hover:bg-white hover:text-[#1a237e]">
+                CONTACT US
+            </a>
+        </div>
+    </div>
+    
+    <!-- About Us Section -->
+    <section id="about-us" class="bg-white py-16">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center md:space-x-12">
+            <!-- Image for About Us section -->
+            <div class="md:w-1/2 mb-8 md:mb-0">
+                <img src="https://placehold.co/600x400/1a237e/FFFFFF?text=|GD+MEMORIAL+School" alt="RCH Public School building and students" class="w-full h-auto object-cover rounded-xl shadow-lg">
+            </div>
+            <!-- Text content for About Us -->
+            <div class="md:w-1/2">
+                <h2 class="text-4xl font-extrabold text-[#1a237e] mb-4">A Legacy of Learning Excellence</h2>
+                <p class="text-gray-600 mb-4">
+                    Founded in 1985, RCH Public School has been a beacon of quality education in Siwan for over three decades. We are a co-educational institution affiliated with the Central Board of Secondary Education (CBSE), dedicated to fostering an environment where curiosity thrives and potential is unlocked. Our philosophy is rooted in a holistic approach to education, combining rigorous academics with a rich tapestry of extracurricular activities to build well-rounded individuals.
+                </p>
+                <p class="text-gray-600 mb-4">
+                    Our campus is designed to be a safe and inspiring space for students, featuring modern classrooms, well-equipped science and computer labs, a spacious library, and extensive sports facilities. We believe that learning extends beyond the textbook, and our dedicated educators are committed to nurturing critical thinking, creativity, and a strong sense of community.
+                </p>
+                <p class="text-gray-600">
+                    We invite you to explore our school and see firsthand how we are preparing students to become compassionate, responsible, and successful global citizens.
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <hr class="border-t border-gray-300 my-12 mx-auto w-3/4">
+
+    <!-- Notification Section with Cards -->
+    <section id="notifications" class="bg-gray-100 py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-extrabold text-[#1a237e] mb-2">Important Announcements</h2>
+                <p class="text-lg text-gray-600">Stay up-to-date with the latest school news and events.</p>
+            </div>
+            <div class="notification-grid">
+                <!-- School Notifications & Updates Card -->
+                <div class="notification-card">
+                    <div class="flex items-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-[#1a237e] mr-3">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5h.008v.008h-.008V7.5Zm-8.25 6h.008v.008h-.008v-.008Zm-3 2.25h.008v.008h-.008V15.75Z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5h.008v.008h-.008V7.5Zm-8.25 6h.008v.008h-.008v-.008Zm-3 2.25h.008v.008h-.008V15.75Z" />
+                        </svg>
+                        <h3 class="text-2xl font-bold text-gray-800">School Notifications & Updates</h3>
+                    </div>
+                    <div class="notification-list-container">
+                        <div class="notification-list">
+                            <!-- Duplicate items to create a seamless loop -->
+                            <div class="notification-item">
+                                <span class="notification-type type-reminder">Reminder</span>
+                                <p class="text-gray-700">Parent-teacher meetings are scheduled for **October 10th**. Please sign up online.</p>
+                            </div>
+                            <div class="notification-item">
+                                <span class="notification-type type-news">News</span>
+                                <p class="text-gray-700">Our school garden project has received a grant! More details to follow.</p>
+                            </div>
+                            <div class="notification-item">
+                                <span class="notification-type type-safety">Safety</span>
+                                <p class="text-gray-700">New traffic regulations around the school will be implemented starting next week.</p>
+                            </div>
+                            <div class="notification-item">
+                                <span class="notification-type type-reminder">Reminder</span>
+                                <p class="text-gray-700">The school will be closed on November 5th for a holiday. Classes resume on Nov. 6th.</p>
+                            </div>
+                            <!-- Duplicates for scrolling -->
+                            <div class="notification-item">
+                                <span class="notification-type type-reminder">Reminder</span>
+                                <p class="text-gray-700">Parent-teacher meetings are scheduled for **October 10th**. Please sign up online.</p>
+                            </div>
+                            <div class="notification-item">
+                                <span class="notification-type type-news">News</span>
+                                <p class="text-gray-700">Our school garden project has received a grant! More details to follow.</p>
+                            </div>
+                            <div class="notification-item">
+                                <span class="notification-type type-safety">Safety</span>
+                                <p class="text-gray-700">New traffic regulations around the school will be implemented starting next week.</p>
+                            </div>
+                            <div class="notification-item">
+                                <span class="notification-type type-reminder">Reminder</span>
+                                <p class="text-gray-700">The school will be closed on November 5th for a holiday. Classes resume on Nov. 6th.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- School Event Notifications Card -->
+                <div class="notification-card">
+                    <div class="flex items-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-[#ff5722] mr-3">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Z" />
+                        </svg>
+                        <h3 class="text-2xl font-bold text-gray-800">School Event Notifications</h3>
+                    </div>
+                    <div class="notification-list-container">
+                         <div class="notification-list">
+                            <!-- Duplicate items to create a seamless loop -->
+                            <div class="notification-item">
+                                <span class="notification-type type-reminder">Event</span>
+                                <p class="text-gray-700">**Halloween Costume Day:** October 31st. Wear your favorite costumes!</p>
+                            </div>
+                            <div class="notification-item">
+                                <span class="notification-type type-news">Event</span>
+                                <p class="text-gray-700">**Annual Book Fair:** November 15-17th in the school library.</p>
+                            </div>
+                            <div class="notification-item">
+                                <span class="notification-type type-safety">Event</span>
+                                <p class="text-gray-700">**Winter Concert:** December 12th. Tickets go on sale next week.</p>
+                            </div>
+                             <div class="notification-item">
+                                <span class="notification-type type-reminder">Event</span>
+                                <p class="text-gray-700">**Diwali Celebration:** November 1st, school auditorium. All families are welcome!</p>
+                            </div>
+                             <!-- Duplicates for scrolling -->
+                            <div class="notification-item">
+                                <span class="notification-type type-reminder">Event</span>
+                                <p class="text-gray-700">**Halloween Costume Day:** October 31st. Wear your favorite costumes!</p>
+                            </div>
+                            <div class="notification-item">
+                                <span class="notification-type type-news">Event</span>
+                                <p class="text-gray-700">**Annual Book Fair:** November 15-17th in the school library.</p>
+                            </div>
+                            <div class="notification-item">
+                                <span class="notification-type type-safety">Event</span>
+                                <p class="text-gray-700">**Winter Concert:** December 12th. Tickets go on sale next week.</p>
+                            </div>
+                             <div class="notification-item">
+                                <span class="notification-type type-reminder">Event</span>
+                                <p class="text-gray-700">**Diwali Celebration:** November 1st, school auditorium. All families are welcome!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- School Life Section -->
+    <section id="gallery" class="bg-gray-100 py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-extrabold text-[#1a237e] mb-2">A Glimpse into School Life</h2>
+                <p class="text-lg text-gray-600">Explore the vibrant activities and environment at RCH Public School.</p>
+                <p>RCH Public School Siwan offers a lively and nurturing learning environment for students.</p>
+            </div>
+            <div class="relative overflow-hidden">
+                <div class="scrolling-container pb-8">
+                    
+                    <!-- Student Life Card -->
+                    <div class="scrolling-card bg-white shadow-lg flex-shrink-0 hover:scale-105 transform transition-transform duration-300 h-1/2">
+                        <img src="fun.jpg" alt="Students in a classroom setting" class="w-full h-auto object-cover rounded-t-xl">
+                        <div class="p-5 text-center">
+                            <h3 class="font-bold text-xl text-gray-800">Student Life</h3>
+                            <p class="text-gray-500 text-sm mt-1">Engaging with fellow students.</p>
+                        </div>
+                    </div>
+                    <!-- Lab Card -->
+                    <div class="scrolling-card bg-white shadow-lg flex-shrink-0 hover:scale-105 transform transition-transform duration-300 h-1/2">
+                        <img src="lab.jpg" alt="Students in a science lab" class="w-full h-auto object-cover rounded-t-xl">
+                        <div class="p-5 text-center">
+                            <h3 class="font-bold text-xl text-gray-800">Science Lab</h3>
+                            <p class="text-gray-500 text-sm mt-1">Practical learning and experiments.</p>
+                        </div>
+                    </div>
+                    <!-- Campus Card -->
+                    <div class="scrolling-card bg-white shadow-lg flex-shrink-0 hover:scale-105 transform transition-transform duration-300 h-1/2">
+                        <img src="class.jpg" alt="The school campus and buildings" class="w-full h-auto object-cover rounded-t-xl">
+                        <div class="p-5 text-center">
+                            <h3 class="font-bold text-xl text-gray-800">Our Campus</h3>
+                            <p class="text-gray-500 text-sm mt-1">A beautiful and safe environment.</p>
+                        </div>
+                    </div>
+                    <!-- Sports Card -->
+                    <div class="scrolling-card bg-white shadow-lg flex-shrink-0 hover:scale-105 transform transition-transform duration-300 h-1/2">
+                        <img src="fun.jpg" alt="Students playing sports" class="w-full h-auto object-cover rounded-t-xl">
+                        <div class="p-5 text-center">
+                            <h3 class="font-bold text-xl text-gray-800">Sports & Fun</h3>
+                            <p class="text-gray-500 text-sm mt-1">Encouraging a healthy lifestyle.</p>
+                        </div>
+                    </div>
+                    <!-- Classroom Card -->
+                    <div class="scrolling-card bg-white shadow-lg flex-shrink-0 hover:scale-105 transform transition-transform duration-300 h-1/2">
+                        <img src="student.jpg" alt="A teacher leading a class" class="w-full h-auto object-cover rounded-t-xl">
+                        <div class="p-5 text-center">
+                            <h3 class="font-bold text-xl text-gray-800">Classroom</h3>
+                            <p class="text-gray-500 text-sm mt-1">Engaging and interactive classes.</p>
+                        </div>
+                    </div>
+                    <!-- Duplicate cards for infinite loop effect -->
+                    <div class="scrolling-card bg-white shadow-lg flex-shrink-0 hover:scale-105 transform transition-transform duration-300 h-1/2">
+                        <img src="sports.jpg" alt="Students in a classroom setting" class="w-full h-auto object-cover rounded-t-xl">
+                        <div class="p-5 text-center">
+                            <h3 class="font-bold text-xl text-gray-800">Student Life</h3>
+                            <p class="text-gray-500 text-sm mt-1">Engaging with fellow students.</p>
+                        </div>
+                    </div>
+                    <div class="scrolling-card bg-white shadow-lg flex-shrink-0 hover:scale-105 transform transition-transform duration-300 h-1/2">
+                        <img src="lab.jpg" alt="Students in a science lab" class="w-full h-auto object-cover rounded-t-xl">
+                        <div class="p-5 text-center">
+                            <h3 class="font-bold text-xl text-gray-800">Science Lab</h3>
+                            <p class="text-gray-500 text-sm mt-1">Practical learning and experiments.</p>
+                        </div>
+                    </div>
+                    <div class="scrolling-card bg-white shadow-lg flex-shrink-0 hover:scale-105 transform transition-transform duration-300 ">
+                        <img src="class.jpg" alt="The school campus and buildings" class="w-full h-auto object-cover rounded-t-xl">
+                        <div class="p-5 text-center">
+                            <h3 class="font-bold text-xl text-gray-800">Our Campus</h3>
+                            <p class="text-gray-500 text-sm mt-1">A beautiful and safe environment.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Principal's Desk Section -->
+    <section id="principal" class="bg-white py-16">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center md:space-x-12">
+            <!-- Principal's Image -->
+            <div class="md:w-1/3 mb-8 md:mb-0 flex-shrink-0">
+                <img src="https://placehold.co/400x500/1a237e/FFFFFF?text=Principal" alt="Principal of RCH Public School" class="w-full h-auto object-cover rounded-xl shadow-lg">
+            </div>
+
+            <!-- Principal's Message -->
+            <div class="md:w-2/3">
+                <h2 class="text-4xl font-extrabold text-[#1a237e] mb-2">From the Principal's Desk</h2>
+                <h3 class="text-2xl font-semibold text-gray-700 mb-4">Mr. Ashish Kumar</h3>
+                <p class="text-gray-600 mb-4">
+                    Welcome to RCH Public School, where we believe every child is a unique individual with immense potential. Our goal is to create a nurturing and challenging environment that inspires students to achieve academic excellence and personal growth. We are dedicated to providing a holistic education that not only focuses on core subjects but also on character building, critical thinking, and a sense of social responsibility.
+                </p>
+                <p class="text-gray-600 mb-4">
+                    Our committed team of educators works tirelessly to guide and support students on their educational journey. We encourage students to be curious, creative, and confident, preparing them to face the challenges of a rapidly changing world.
+                </p>
+                <p class="text-gray-600">
+                    We invite you to join our school community and partner with us in shaping the future leaders of tomorrow. Thank you for entrusting us with your child's education.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Team Section -->
+    <section id="team" class="bg-gray-100 py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-extrabold text-[#1a237e] mb-2">Meet Our Leadership</h2>
+                <p class="text-lg text-gray-600">Our dedicated team of educators and leaders.</p>
+            </div>
+            
+            <div class="relative overflow-hidden">
+                <div class="scrolling-container pb-8">
+                    <!-- Principal Card -->
+                    <div class="scrolling-card bg-white p-6 rounded-xl shadow-lg text-center flex flex-col items-center">
+                        <div class="team-card-image-container border-[#ff5722]">
+                             <img src="principal.jpeg" alt="Principal" class="w-full h-full object-cover rounded-full">
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="font-bold text-2xl text-gray-800">Dr. Anjali Sharma</h3>
+                            <p class="text-[#ff5722] font-semibold text-lg">Principal</p>
+                        </div>
+                        <p class="text-gray-500 mt-4 text-sm">A visionary leader with a passion for holistic education. Dr. Sharma has over 20 years of experience in shaping young minds and fostering a positive learning environment.</p>
+                    </div>
+
+                    <!-- Head of Academics Card -->
+                    <div class="scrolling-card bg-white p-6 rounded-xl shadow-lg text-center flex flex-col items-center">
+                        <div class="team-card-image-container border-[#1a237e]">
+                             <img src="tea2.jpg" alt="Head of Academics" class="w-full h-full object-cover rounded-full">
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="font-bold text-2xl text-gray-800">Mr. David Chen</h3>
+                            <p class="text-[#1a237e] font-semibold text-lg">Head of Academics</p>
+                        </div>
+                        <p class="text-gray-500 mt-4 text-sm">Mr. Chen is an expert in curriculum development and modern teaching methodologies, ensuring our students receive a top-tier academic foundation.</p>
+                    </div>
+
+                    <!-- Senior Teacher Card -->
+                    <div class="scrolling-card bg-white p-6 rounded-xl shadow-lg text-center flex flex-col items-center">
+                        <div class="team-card-image-container border-[#ff5722]">
+                             <img src="teac3.jpg" alt="Senior Teacher" class="w-full h-full object-cover rounded-full">
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="font-bold text-2xl text-gray-800">Ms. Emily Wilson</h3>
+                            <p class="text-[#ff5722] font-semibold text-lg">Senior Teacher</p>
+                        </div>
+                        <p class="text-gray-500 mt-4 text-sm">With a focus on student-centric learning, Ms. Wilson inspires her students to reach their full potential through engaging and dynamic classroom experiences.</p>
+                    </div>
+
+                    <!-- Duplicated Cards for infinite loop -->
+                     <div class="scrolling-card bg-white p-6 rounded-xl shadow-lg text-center flex flex-col items-center">
+                        <div class="team-card-image-container border-[#ff5722]">
+                             <img src="teache1.webp" alt="Principal" class="w-full h-full object-cover rounded-full">
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="font-bold text-2xl text-gray-800">Dr. Anjali Sharma</h3>
+                            <p class="text-[#ff5722] font-semibold text-lg">Principal</p>
+                        </div>
+                        <p class="text-gray-500 mt-4 text-sm">A visionary leader with a passion for holistic education. Dr. Sharma has over 20 years of experience in shaping young minds and fostering a positive learning environment.</p>
+                    </div>
+
+                    <!-- Head of Academics Card -->
+                    <div class="scrolling-card bg-white p-6 rounded-xl shadow-lg text-center flex flex-col items-center">
+                        <div class="team-card-image-container border-[#1a237e]">
+                             <img src="principal.jpeg" alt="Head of Academics" class="w-full h-full object-cover rounded-full">
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="font-bold text-2xl text-gray-800">Mr. David Chen</h3>
+                            <p class="text-[#1a237e] font-semibold text-lg">Head of Academics</p>
+                        </div>
+                        <p class="text-gray-500 mt-4 text-sm">Mr. Chen is an expert in curriculum development and modern teaching methodologies, ensuring our students receive a top-tier academic foundation.</p>
+                    </div>
+
+                    <!-- Senior Teacher Card -->
+                    <div class="scrolling-card bg-white p-6 rounded-xl shadow-lg text-center flex flex-col items-center">
+                        <div class="team-card-image-container border-[#ff5722]">
+                             <img src="teac3.jpg" alt="Senior Teacher" class="w-full h-full object-cover rounded-full">
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="font-bold text-2xl text-gray-800">Ms. Emily Wilson</h3>
+                            <p class="text-[#ff5722] font-semibold text-lg">Senior Teacher</p>
+                        </div>
+                        <p class="text-gray-500 mt-4 text-sm">With a focus on student-centric learning, Ms. Wilson inspires her students to reach their full potential through engaging and dynamic classroom experiences.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- About Us -->
+            <div>
+                <h3 class="text-2xl font-bold mb-4">About Us</h3>
+                <p class="text-gray-400 text-sm">RCH Public School is committed to providing a nurturing and stimulating environment where every child can flourish. We focus on academic excellence, character development, and holistic growth.</p>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h3 class="text-2xl font-bold mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Admissions</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Fee Structure</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Alumni</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Careers</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div>
+                <h3 class="text-2xl font-bold mb-4">Contact</h3>
+                <p class="text-gray-400 mb-2 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 text-[#ff5722]">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 6.51-6.75 9.75-9.75 9.75S.5 17.01.5 10.5a9.75 9.75 0 0 1 19.5 0Z" />
+                    </svg>
+                    Siwan, Bihar, India
+                </p>
+                <p class="text-gray-400 mb-2 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 text-[#ff5722]">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.106l-1.41-3.32c-.14-.33-.52-.52-.89-.47L12 16.2c-2.486 0-4.5-2.014-4.5-4.5s2.014-4.5 4.5-4.5a3.75 3.75 0 0 1 3.75 3.75v1.5c0 .414.336.75.75.75H18c.414 0 .75-.336.75-.75V8.25c0-1.89-1.543-3.414-3.438-3.375C12.9 4.908 12 5.862 12 7.125c0 1.263.9 2.217 2.063 2.316a1.5 1.5 0 0 0 .5-2.955V5.5" />
+                    </svg>
+                    +91-1234567890
+                </p>
+                <p class="text-gray-400 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 text-[#ff5722]">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0c0-1.242-1.008-2.25-2.25-2.25H4.5C3.258 4.5 2.25 5.508 2.25 6.75m19.5 0H2.25m-1.5 1.5h20.25" />
+                    </svg>
+                    info@rchpublicschool.com
+                </p>
+            </div>
+
+            <!-- Social Media & Location -->
+            <div>
+                <h3 class="text-2xl font-bold mb-4">Connect With Us</h3>
+                <div class="flex space-x-4 mb-4">
+                    <!-- Facebook Icon -->
+                    <a href="#" class="text-gray-400 hover:text-[#ff5722] transition-colors duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-3 7h-2c-1.032 0-2 1.05-2 2v2h4l-.328 3h-3.672v8h-4v-8h-3v-3h3v-1.791c0-3.177 1.258-5.209 5.792-5.209h3.208v3z"/>
+                        </svg>
+                    </a>
+                    <!-- Twitter Icon -->
+                    <a href="#" class="text-gray-400 hover:text-[#ff5722] transition-colors duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.797-1.574 2.162-2.723-.951.564-2.005.974-3.127 1.195-.89-.958-2.173-1.558-3.593-1.558-3.126 0-5.659 2.533-5.659 5.659 0 .445.051.879.15.918-4.706-.234-8.882-2.497-11.677-5.908-.485.834-.766 1.802-.766 2.824 0 1.967 1.002 3.708 2.518 4.733-.929-.031-1.807-.285-2.576-.711v.074c0 2.738 1.95 5.035 4.53 5.568-.474.129-.973.195-1.488.195-.365 0-.721-.035-1.069-.102.72.67 1.738 1.157 2.915 1.171-1.936 1.517-4.385 2.417-7.042 2.417-.459 0-.91-.027-1.353-.081 2.507 1.611 5.485 2.559 8.694 2.559 10.435 0 16.208-8.68 16.208-16.208 0-.247-.006-.49-.017-.733.95-1.636 1.76-3.659 2.4-5.698z"/>
+                        </svg>
+                    </a>
+                    <!-- Instagram Icon -->
+                    <a href="#" class="text-gray-400 hover:text-[#ff5722] transition-colors duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.851.07c3.252.148 4.771 1.691 4.919 4.919.058 1.267.07 1.647.07 4.851s-.012 3.584-.07 4.851c-.148 3.229-1.668 4.772-4.919 4.919-1.267.058-1.647.07-4.851.07s-3.584-.012-4.851-.07c-3.251-.148-4.771-1.691-4.919-4.919-.058-1.267-.07-1.647-.07-4.851s.012-3.584.07-4.851c.148-3.229 1.668-4.772 4.919-4.919 1.267-.058 1.647-.07 4.851-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.35 0-5.874 1.458-6.024 6.024-.058 1.28-.072 1.69-.072 4.947s.014 3.667.072 4.947c.15 4.35 1.674 5.874 6.024 6.024 1.28.058 1.69.072 4.947.072s3.667-.014 4.947-.072c4.35-.15 5.874-1.674 6.024-6.024.058-1.28.072-1.69.072-4.947s-.014-3.667-.072-4.947c-.15-4.35-1.674-5.874-6.024-6.024-1.28-.058-1.69-.072-4.947-.072zm0 6a6 6 0 1 0 0 12 6 6 0 0 0 0-12zm0 10a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.5-11.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="mt-8">
+                    <h3 class="text-2xl font-bold mb-4">Our Location</h3>
+                    <div class="h-48 rounded-lg overflow-hidden border-2 border-gray-700">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14300.751694248437!2d84.34145719999999!3d26.2238382!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3993c1266e74b88b%3A0x7067885b5b292e0a!2sSiwan%2C%20Bihar!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                            width="100%"
+                            height="100%"
+                            style="border:0;"
+                            allowfullscreen=""
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container mx-auto px-4 mt-8 pt-8 border-t border-gray-700 text-center">
+            <p class="text-gray-500 text-sm">&copy; 2024 RCH Public School Siwan. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const enrollNowBtn = document.getElementById('enroll-now-btn');
+            const enrollModal = document.getElementById('enroll-modal');
+            const closeEnrollModalBtn = document.getElementById('close-enroll-modal-btn');
+            const enrollmentForm = document.getElementById('enrollment-form');
+            const successMessage = document.getElementById('success-message');
+
+            const contactNavLink = document.getElementById('contact-us-nav-link');
+            const contactMobileLink = document.getElementById('contact-us-mobile-link');
+            const contactBannerLink = document.getElementById('contact-us-banner-link');
+            const inquiryModal = document.getElementById('inquiry-modal');
+            const closeInquiryModalBtn = document.getElementById('close-inquiry-modal-btn');
+            const inquiryForm = document.getElementById('inquiry-form');
+            const inquirySuccessMessage = document.getElementById('inquiry-success-message');
+            
+            const admissionsNavLink = document.getElementById('admissions-nav-link');
+            const admissionsMobileLink = document.getElementById('admissions-mobile-link');
+            const admissionsModal = document.getElementById('admissions-modal');
+            const closeAdmissionsModalBtn = document.getElementById('close-admissions-modal-btn');
+            const admissionsForm = document.getElementById('admissions-form');
+            const admissionsSuccessMessage = document.getElementById('admissions-success-message');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Hero Slider functionality
+            const slider = document.getElementById('hero-slider');
+            const headline = document.getElementById('hero-headline');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+
+            const slides = [
+                {
+                    image: 'https://images.unsplash.com/photo-1541339907198-e08756086f1a?q=80&w=2940&auto=format&fit=crop',
+                    headline: 'Best gift for a child is a great education'
+                },
+                {
+                    image: 'https://images.unsplash.com/photo-1522204523234-8729aa6e993f?q=80&w=2940&auto=format&fit=crop',
+                    headline: 'Fostering a love for learning and curiosity'
+                },
+                {
+                    image: 'https://images.unsplash.com/photo-1552581234-21173489810d?q=80&w=2940&auto=format&fit=crop',
+                    headline: 'Shaping tomorrow\'s leaders, one student at a time'
+                }
+            ];
+
+            let currentIndex = 0;
+
+            function updateSlide() {
+                const currentSlide = slides[currentIndex];
+                slider.style.backgroundImage = `url('${currentSlide.image}')`;
+                headline.textContent = currentSlide.headline;
+            }
+
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % slides.length;
+                updateSlide();
+            }
+
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+                updateSlide();
+            }
+            
+            // Set initial slide
+            updateSlide();
+
+            // Automatic slide change every 5 seconds
+            setInterval(nextSlide, 5000);
+
+            // Manual slide change
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+
+            // Reusable modal functionality
+            function showModal(modalElement) {
+                modalElement.classList.remove('hidden');
+                setTimeout(() => {
+                    modalElement.classList.remove('opacity-0');
+                    modalElement.querySelector('div').classList.remove('scale-95');
+                }, 10);
+            }
+
+            function hideModal(modalElement, successMsgElement) {
+                modalElement.classList.add('opacity-0');
+                modalElement.querySelector('div').classList.add('scale-95');
+                setTimeout(() => {
+                    modalElement.classList.add('hidden');
+                    if (successMsgElement) {
+                        successMsgElement.classList.add('hidden');
+                    }
+                }, 300); // Corresponds to the transition duration
+            }
+
+            // Enrollment Form Handlers
+            enrollNowBtn.addEventListener('click', () => showModal(enrollModal));
+            closeEnrollModalBtn.addEventListener('click', () => hideModal(enrollModal, successMessage));
+            
+            enrollmentForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                console.log('Enrollment form submitted!');
+                const formData = new FormData(enrollmentForm);
+                const data = Object.fromEntries(formData.entries());
+                console.log(data);
+
+                enrollmentForm.reset();
+                successMessage.classList.remove('hidden');
+
+                setTimeout(() => hideModal(enrollModal, successMessage), 3000);
+            });
+            
+            // Inquiry Form Handlers
+            contactNavLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                showModal(inquiryModal);
+            });
+            contactMobileLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                showModal(inquiryModal);
+            });
+            contactBannerLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                showModal(inquiryModal);
+            });
+
+            closeInquiryModalBtn.addEventListener('click', () => hideModal(inquiryModal, inquirySuccessMessage));
+
+            inquiryForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                console.log('Inquiry form submitted!');
+                const formData = new FormData(inquiryForm);
+                const data = Object.fromEntries(formData.entries());
+                console.log(data);
+
+                inquiryForm.reset();
+                inquirySuccessMessage.classList.remove('hidden');
+
+                setTimeout(() => hideModal(inquiryModal, inquirySuccessMessage), 3000);
+            });
+            
+            // Admissions Form Handlers
+            admissionsNavLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                showModal(admissionsModal);
+            });
+            admissionsMobileLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                showModal(admissionsModal);
+            });
+
+            closeAdmissionsModalBtn.addEventListener('click', () => hideModal(admissionsModal, admissionsSuccessMessage));
+
+            admissionsForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                console.log('Admissions form submitted!');
+                const formData = new FormData(admissionsForm);
+                const data = Object.fromEntries(formData.entries());
+                console.log(data);
+
+                admissionsForm.reset();
+                admissionsSuccessMessage.classList.remove('hidden');
+
+                setTimeout(() => hideModal(admissionsModal, admissionsSuccessMessage), 3000);
+            });
+        });
+    </script>
+</body>
+</html>
